@@ -1,4 +1,4 @@
-Attribute VB_Name = "Module1"
+Attribute VB_Name = "LoadingSheets"
 
 Dim warehouseID As String
 
@@ -148,10 +148,6 @@ Private Sub find_used_connections(QueryName As String)
 
 End Sub
 
-Private Function GetWorksheet(shtName As String) As Worksheet
-    On Error Resume Next
-    Set GetWorksheet = Worksheets(shtName)
-End Function
 
 Private Function getWareHouseID(stockName As String) As String
     Dim xmlhttp As New MSXML2.xmlhttp, myurl As String, html As New HTMLDocument, topics As Object, topic As String, regex As Object, expectedString As Object, wId As Object
