@@ -1,0 +1,71 @@
+[I 19:44:21.345 NotebookApp] Serving notebooks from local directory: /home/subora/Documents/github_repository/FundamentalAnalysis/Codes/python
+[I 19:44:21.345 NotebookApp] Jupyter Notebook 6.3.0 is running at:
+[I 19:44:21.345 NotebookApp] http://localhost:8888/?token=288d82fefb1cb76bba58256b84103b24322ce8e98f091928
+[I 19:44:21.345 NotebookApp]  or http://127.0.0.1:8888/?token=288d82fefb1cb76bba58256b84103b24322ce8e98f091928
+[I 19:44:21.345 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 19:44:21.366 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/subora/.local/share/jupyter/runtime/nbserver-40651-open.html
+    Or copy and paste one of these URLs:
+        http://localhost:8888/?token=288d82fefb1cb76bba58256b84103b24322ce8e98f091928
+     or http://127.0.0.1:8888/?token=288d82fefb1cb76bba58256b84103b24322ce8e98f091928
+Opening in existing browser session.
+[I 19:44:26.971 NotebookApp] Kernel started: 09de8ea7-3503-4cb4-8107-0ccbbcb39565, name: python3
+[I 19:44:38.233 NotebookApp] Starting buffering for 09de8ea7-3503-4cb4-8107-0ccbbcb39565:12878dcff7a7471a9e34b80b5f6cef72
+[I 19:44:39.958 NotebookApp] Kernel restarted: 09de8ea7-3503-4cb4-8107-0ccbbcb39565
+[I 19:44:39.977 NotebookApp] Restoring connection for 09de8ea7-3503-4cb4-8107-0ccbbcb39565:12878dcff7a7471a9e34b80b5f6cef72
+[I 19:44:41.540 NotebookApp] Replaying 3 buffered messages
+[I 19:45:33.643 NotebookApp] Starting buffering for 09de8ea7-3503-4cb4-8107-0ccbbcb39565:12878dcff7a7471a9e34b80b5f6cef72
+[I 19:45:34.063 NotebookApp] Kernel restarted: 09de8ea7-3503-4cb4-8107-0ccbbcb39565
+[I 19:45:34.088 NotebookApp] Restoring connection for 09de8ea7-3503-4cb4-8107-0ccbbcb39565:12878dcff7a7471a9e34b80b5f6cef72
+[I 19:45:34.864 NotebookApp] Replaying 3 buffered messages
+[I 19:46:27.059 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 19:48:27.067 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 19:52:27.063 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 20:06:26.930 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 20:08:27.066 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 20:10:26.925 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 20:12:27.070 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 20:16:26.940 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 20:18:27.039 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 20:22:27.067 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 20:36:27.057 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 20:40:26.932 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 20:42:26.929 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 20:44:27.058 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 21:00:26.924 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 10:57:48.596 NotebookApp] Starting buffering for 09de8ea7-3503-4cb4-8107-0ccbbcb39565:12878dcff7a7471a9e34b80b5f6cef72
+[I 10:57:57.495 NotebookApp] Starting buffering for 09de8ea7-3503-4cb4-8107-0ccbbcb39565:3300e65b6e18410d8f24036ad0d75cc5
+[I 10:57:58.815 NotebookApp] Kernel restarted: 09de8ea7-3503-4cb4-8107-0ccbbcb39565
+[I 10:57:58.830 NotebookApp] Restoring connection for 09de8ea7-3503-4cb4-8107-0ccbbcb39565:3300e65b6e18410d8f24036ad0d75cc5
+[I 10:58:00.582 NotebookApp] Replaying 3 buffered messages
+[I 10:59:50.372 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 11:01:50.776 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 11:05:50.772 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 11:59:02.649 NotebookApp] Starting buffering for 09de8ea7-3503-4cb4-8107-0ccbbcb39565:3300e65b6e18410d8f24036ad0d75cc5
+[I 11:59:03.168 NotebookApp] Kernel restarted: 09de8ea7-3503-4cb4-8107-0ccbbcb39565
+[I 11:59:03.199 NotebookApp] Restoring connection for 09de8ea7-3503-4cb4-8107-0ccbbcb39565:3300e65b6e18410d8f24036ad0d75cc5
+[I 11:59:03.714 NotebookApp] Replaying 3 buffered messages
+[I 11:59:33.750 NotebookApp] Starting buffering for 09de8ea7-3503-4cb4-8107-0ccbbcb39565:3300e65b6e18410d8f24036ad0d75cc5
+[I 11:59:34.162 NotebookApp] Kernel restarted: 09de8ea7-3503-4cb4-8107-0ccbbcb39565
+[I 11:59:34.173 NotebookApp] Restoring connection for 09de8ea7-3503-4cb4-8107-0ccbbcb39565:3300e65b6e18410d8f24036ad0d75cc5
+[I 11:59:34.678 NotebookApp] Replaying 3 buffered messages
+[I 11:59:50.370 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 12:01:50.787 NotebookApp] Saving file at /Balrampur Chini analysis.ipynb
+[I 14:01:34.052 NotebookApp] Starting buffering for 09de8ea7-3503-4cb4-8107-0ccbbcb39565:3300e65b6e18410d8f24036ad0d75cc5
+[W 14:02:03.555 NotebookApp] Forbidden
+[W 14:02:03.556 NotebookApp] 403 GET /api/sessions?_=1617891262830 (127.0.0.1) 2.420000ms referer=http://localhost:8888/tree
+[W 14:02:03.559 NotebookApp] Forbidden
+[W 14:02:03.560 NotebookApp] 403 GET /api/terminals?_=1617891262831 (127.0.0.1) 2.200000ms referer=http://localhost:8888/tree
+[W 14:02:07.416 NotebookApp] Forbidden
+[W 14:02:07.417 NotebookApp] 403 DELETE /api/sessions/7d3f6d09-f6e5-48e6-8c9f-189af88fd272 (127.0.0.1) 4.340000ms referer=http://localhost:8888/tree
+[W 14:02:12.870 NotebookApp] Forbidden
+[W 14:02:12.871 NotebookApp] 403 DELETE /api/sessions/7d3f6d09-f6e5-48e6-8c9f-189af88fd272 (127.0.0.1) 2.650000ms referer=http://localhost:8888/tree
+[I 14:02:14.009 NotebookApp] 302 GET /edit/nohup.out (127.0.0.1) 1.450000ms
+[W 14:02:17.695 NotebookApp] 401 POST /login?next=%2Fedit%2Fnohup.out (127.0.0.1) 2.150000ms referer=http://localhost:8888/login?next=%2Fedit%2Fnohup.out
+[W 14:02:21.177 NotebookApp] 401 POST /login?next=%2Fedit%2Fnohup.out (127.0.0.1) 5.190000ms referer=http://localhost:8888/login?next=%2Fedit%2Fnohup.out
+[W 14:02:23.372 NotebookApp] Forbidden
+[W 14:02:23.373 NotebookApp] 403 GET /api/sessions?_=1617891262832 (127.0.0.1) 2.050000ms referer=http://localhost:8888/tree
+[W 14:02:23.376 NotebookApp] Forbidden
+[W 14:02:23.376 NotebookApp] 403 GET /api/terminals?_=1617891262833 (127.0.0.1) 1.590000ms referer=http://localhost:8888/tree

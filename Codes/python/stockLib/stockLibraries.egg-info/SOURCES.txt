@@ -1,0 +1,9 @@
+README.md
+setup.py
+stockLibraries/__init__.py
+stockLibraries/getStockDetails.py
+stockLibraries.egg-info/PKG-INFO
+stockLibraries.egg-info/SOURCES.txt
+stockLibraries.egg-info/dependency_links.txt
+stockLibraries.egg-info/requires.txt
+stockLibraries.egg-info/top_level.txt
