@@ -1,8 +1,15 @@
 # Fundamental Analysis Template 
 
-#### Vision : To create an excel template to load fundamental data of a stock trading in NSE and then to automate some analysis. 
+#### Vision  : 
+              1. To create an excel template to load fundamental data of a stock trading in NSE and then to automate some analysis. 
+              2. Create a python project for the same 
 
 #### Author : Sudeshna Bora 
+
+---
+# PROJECT ONE : FUNDAMENTAL ANALYSIS IN EXCEL
+
+---
 
 ## Phase I : Loading Data
 
@@ -21,3 +28,22 @@ The main() subprocedure is linked to a button click.
 
 ## Phase II : Analysis of Investor Sheet
 
+#### Status : ABANDONED
+
+Decided to your python to do fundamental analysis instead.
+
+---
+# PROJECT TWO : FUNDAMENTAL ANALYSIS IN PYTHON
+
+---
+
+## Phase I : Loading Financial Data 
+
+### Details : 
+
+We are going to load only the three financial sheet namely balance sheet , cash flow and profit and loss. 
+Source used is : Money Control.
+
+The functions are present [here](https://github.com/SudeshnaBora/FundamentalAnalysis/blob/master/Codes/python/stockLib/stockLibraries/getStockFinancialDetails.py).
+
+#### Status : Completed
