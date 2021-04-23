@@ -86,6 +86,8 @@ def get_dividend_history(nse_ticker):
     table = soup.find('table', attrs={'class':'table'}) 
     df = pd.read_html(str(table))[0]
     
+    return df
+    
     #format the dataframe
     formatted_df = __format_dividend_table(df)
     
@@ -131,4 +133,3 @@ def __format_dividend_table(df):
     final_df = final_df.fillna(0.0)
     
     return final_df
-    
