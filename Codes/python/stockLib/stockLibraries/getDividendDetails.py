@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+Fetches the dividend history of a company from web and formats it to 
+an acceptable representation
+
 Created on Sat Apr 10 22:02:58 2021
 
 @author: subora
@@ -85,10 +88,10 @@ def get_dividend_history(nse_ticker):
     soup = BeautifulSoup(url,'lxml') 
     table = soup.find('table', attrs={'class':'table'}) 
     df = pd.read_html(str(table))[0]
-    
-    return df
-    
+
     #format the dataframe
+    print("Dataframe fetched")
+    
     formatted_df = __format_dividend_table(df)
     
     return formatted_df
@@ -108,6 +111,7 @@ def __format_dividend_table(df):
         The final dataframe
 
     """
+    print("Formatting the dataframe")
     # The dataframe is like this :-
     #Ex-Date  Dividend Amount Dividend Type    Record Date
     #0  Feb. 11, 2021              2.5       INTERIM  Feb. 12, 2021
@@ -131,5 +135,6 @@ def __format_dividend_table(df):
     final_df = final_df.sort_index()
     final_df = final_df.reindex(np.arange(df['Ex-Date'].min(),df['Ex-Date'].max()+1))
     final_df = final_df.fillna(0.0)
-    
+
     return final_df
+

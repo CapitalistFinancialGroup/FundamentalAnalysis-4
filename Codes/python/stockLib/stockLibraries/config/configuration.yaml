@@ -1,0 +1,9 @@
+dividend:
+  default:
+    rate_of_equity: 10
+    rate_of_debt: 10
+    marginal_tax_rate: 30
+
+url:
+  moneycontrol:
+    stock_details: 
