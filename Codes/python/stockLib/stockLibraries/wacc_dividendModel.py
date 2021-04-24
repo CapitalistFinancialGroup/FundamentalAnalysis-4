@@ -10,7 +10,7 @@ Created on Sat Apr 24 13:03:33 2021
 import pandas as pd 
 
 
-def calculate_roe_dividendModel(dividend_df,current_share_price):
+def calculate_roe_dividendModel(df,current_share_price):
     """
      
     Calculates minimum return on equity/cost of equity as per gordon
@@ -21,7 +21,7 @@ def calculate_roe_dividendModel(dividend_df,current_share_price):
 
     Parameters
     ----------
-    dividend_df : @dataframe
+    df : @dataframe
         A pandas dataframe containing the dividend history.
     current_share_price : @int
         The current share price of the company.
@@ -33,6 +33,7 @@ def calculate_roe_dividendModel(dividend_df,current_share_price):
 
     """
     
+    dividend_df = df
     
     #preliminary check
     total_years = len(dividend_df)
@@ -73,13 +74,14 @@ def calculate_roe_dividendModel(dividend_df,current_share_price):
     
     for i in range(5):
         projected_amount = dividend_df.loc[last_year,'Dividend Amount']*(1 + growth_rate/100)
+        print("Projected dividend for {} is {}".format(last_year,projected_amount))
         last_year = last_year + 1
         new_row = pd.Series({'Dividend Amount': projected_amount},name = last_year)
         dividend_df = dividend_df.append(new_row)        
     
     # calculate cost of equity
-    roe = (dividend_df.loc[dividend_df.index[-1]]/current_share_price)*100 + growth_rate
-    print(roe)
+    print("Calculating the cost of equity with dividend amount: {}, current share price: {} and a conservative growth rate of {}".format(dividend_df.loc[dividend_df.index[-1],'Dividend Amount'],current_share_price,growth_rate))
+    roe = (dividend_df.loc[dividend_df.index[-1],'Dividend Amount']/current_share_price)*100 + growth_rate
     return roe
 
 def calculate_cod(balance_df,income_df):
