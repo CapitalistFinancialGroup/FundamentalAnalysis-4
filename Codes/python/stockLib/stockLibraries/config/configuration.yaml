@@ -7,3 +7,15 @@ dividend:
 url:
   moneycontrol:
     stock_details: 
+       prefix: "https://www.moneycontrol.com/mccode/common/autosuggestion_solr.php?classic=true&query="
+       postfix: "&type=1&format=json"
+
+    financials: 
+      prefix: "https://www.moneycontrol.com/financials/"
+
+  trendlyne:
+    stock_details:
+      full_url: "https://trendlyne.com/member/api/ac_snames/stock/?term="
+
+    dividend:
+      full_url: "https://trendlyne.com/equity/Dividend/" 

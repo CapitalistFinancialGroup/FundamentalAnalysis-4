@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Utility to fetch stock financial data from money control
+Utility to fetch stock financial data from money control namely balance sheet, income statement and cash flow statement
 
 
 Created on Thu Apr  8 20:56:03 2021
@@ -78,8 +78,38 @@ def get_financial_data(url_string):
     
     return df
 
+def get_financial_sheet(tickerName):
+    """
+    Fetch and format the three financial report (balance sheet, income statement and cash flow statement)
 
-def get_financial_sheet(placeholder01,placeholder02,sheet_type):
+    Parameters
+    ----------
+    tickerName : @str
+        The NSE ID of the company.
+
+    Returns
+    -------
+    balance_df : @dataframe
+        The formatted balance sheet dataframe.
+    income_df : @dataframe
+        The formatted income statement dataframe.
+    cashflow_df : @dataframe
+        The formatted cashflow dataframe.
+
+    """
+    
+    #Get the required url details 
+    abbv01,abbv02 = extract_stock_data(tickerName)
+    
+    #get the three financial data in proper representation
+    balance_df = format_financial_sheet(abbv01, abbv02, FINANCIALS.BALANCESHEET)
+    income_df = format_financial_sheet(abbv01, abbv02, FINANCIALS.INCOMESTATEMENT)
+    cashflow_df = format_financial_sheet(abbv01,abbv02,FINANCIALS.CASHFLOW)
+    
+    return balance_df,income_df,cashflow_df
+
+
+def format_financial_sheet(placeholder01,placeholder02,sheet_type):
     """
     This function fetches the required financial sheet and formats it into an acceptable representation
 

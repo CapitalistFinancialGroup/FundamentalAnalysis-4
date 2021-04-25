@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Calculates the weighted average cost of capital based on dividend model
+Utility class for various dividend model functionalities
 
 Created on Sat Apr 24 13:03:33 2021
 
@@ -10,7 +10,7 @@ Created on Sat Apr 24 13:03:33 2021
 import pandas as pd 
 
 
-def calculate_roe_dividendModel(df,current_share_price):
+def calculate_roe(df,current_share_price):
     """
      
     Calculates minimum return on equity/cost of equity as per gordon
@@ -84,11 +84,3 @@ def calculate_roe_dividendModel(df,current_share_price):
     roe = (dividend_df.loc[dividend_df.index[-1],'Dividend Amount']/current_share_price)*100 + growth_rate
     return roe
 
-def calculate_cod(balance_df,income_df):
-    
-    
-    # calculate total debt from balance sheet
-    
-    
-    # divided it by interest
-    return 10
