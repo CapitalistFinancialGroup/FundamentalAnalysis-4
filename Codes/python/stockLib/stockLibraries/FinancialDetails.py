@@ -19,7 +19,7 @@ class FINANCIALS:
     BALANCESHEET = "balance-sheet"
     INCOMESTATEMENT = "profit-loss"
 
-def extract_stock_data(tickerName):
+def __extract_stock_data(tickerName):
     """
     This Function gets the runtime parameters required to get the data from money control
 
@@ -55,7 +55,7 @@ def extract_stock_data(tickerName):
     
     return extracted_link[-1] , extracted_link[-2]
 
-def get_financial_data(url_string):
+def __get_financial_data(url_string):
     """
     This utility function fetches the financial sheet
 
@@ -99,17 +99,17 @@ def get_financial_sheet(tickerName):
     """
     
     #Get the required url details 
-    abbv01,abbv02 = extract_stock_data(tickerName)
+    abbv01,abbv02 = __extract_stock_data(tickerName)
     
     #get the three financial data in proper representation
-    balance_df = format_financial_sheet(abbv01, abbv02, FINANCIALS.BALANCESHEET)
-    income_df = format_financial_sheet(abbv01, abbv02, FINANCIALS.INCOMESTATEMENT)
-    cashflow_df = format_financial_sheet(abbv01,abbv02,FINANCIALS.CASHFLOW)
+    balance_df = __format_financial_sheet(abbv01, abbv02, FINANCIALS.BALANCESHEET)
+    income_df = __format_financial_sheet(abbv01, abbv02, FINANCIALS.INCOMESTATEMENT)
+    cashflow_df = __format_financial_sheet(abbv01,abbv02,FINANCIALS.CASHFLOW)
     
     return balance_df,income_df,cashflow_df
 
 
-def format_financial_sheet(placeholder01,placeholder02,sheet_type):
+def __format_financial_sheet(placeholder01,placeholder02,sheet_type):
     """
     This function fetches the required financial sheet and formats it into an acceptable representation
 
@@ -134,7 +134,7 @@ def format_financial_sheet(placeholder01,placeholder02,sheet_type):
     sheet_url = "https://www.moneycontrol.com/financials/"+placeholder02+"/consolidated-"+sheet_type+"VI/"+placeholder01+"#"+placeholder01
     
     print("The url being used to fetch the financial data {}".format(sheet_url))
-    sheet_df = get_financial_data(sheet_url)
+    sheet_df = __get_financial_data(sheet_url)
     
     #remote the last column
     sheet_df = sheet_df.iloc[:, :-1]
