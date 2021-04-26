@@ -50,7 +50,7 @@ This is also a internal functionality.
 
 ---
 
-#### DividendDetails
+#### File: DividendDetails
 
 This submodule fetches dividend history and format it into proper format.
 
@@ -68,10 +68,29 @@ It takes a nse id as input , fetches relevant stock details and then fetches and
 
 Internal function that formats a given dividend history dataframe.
 It drops unnecessary columns ```('Dividend Type','Record Date')``` and converts ```Ex-Date``` into a time series (having only year).
-The rows of dividend for same year is added. 
+The rows of dividend for same year is added. Missing years are added with 0 dividend.
 Finally, ```Ex-Date``` is made into row index. 
 
 ---
 
+#### File : DividendModel
 
+This ```submodule``` gives the functionality required for ```Gordon Dividend Model```.
+
+<b>calculate_roe</b>
+
+This functionality calculates the ```cost of equity``` based on dividend model.
+The most important prerequisite is the dividend should be continous (all the years present in the dividend history needs to have non zero dividend amount).
+Conservative growth rate are taken for growth of dividend (though both arithmetic and geometric growth rate are calculated).
+
+```diff
+
+- Note
+
+We should make the check for cost of equity to be more flexible. Instead of every year having a dividend amount, we should check if the last 5 years have 
+continous dividend history
+
+```
+
+---
 
