@@ -4,7 +4,7 @@
 
 ---
 
-#### File : FinancialDetails
+#### Submodule : FinancialDetails
 
 This file gives functionality to fetch the three important financial reports of a company based on its nse id. 
 
@@ -50,7 +50,7 @@ This is also a internal functionality.
 
 ---
 
-#### File: DividendDetails
+#### Submodule: DividendDetails
 
 This submodule fetches dividend history and format it into proper format.
 
@@ -73,7 +73,7 @@ Finally, ```Ex-Date``` is made into row index.
 
 ---
 
-#### File : DividendModel
+#### Submodule : DividendModel
 
 This ```submodule``` gives the functionality required for ```Gordon Dividend Model```.
 
@@ -93,4 +93,51 @@ continous dividend history
 ```
 
 ---
+
+#### Submodule : wacc
+
+This submodule gives the functionalities required to implement ```weighted average cost of capital```.
+
+<b>calculate_cod</b>
+
+It calculates the cost of debt of the stock.
+It takes the balance sheet and the income statement to compute the cost of stock in percentage.
+
+</b>marginal_tax_rate</b>
+
+It calculates the tax rate paid by the company based on its income statement.
+In place of this we can use a default tax rate of ```30%``` as well.
+
+<b>calculate_roe</b>
+
+This can be considered the caller function for the [dividend]() based implementation and the [capm](https://github.com/SudeshnaBora/FundamentalAnalysis/blob/master/Codes/python/stockLib/stockLibraries/CAPMModel.py) based implementation.
+It takes the dividend history and the current share price and gives the roe based on if the company has a continuous dividend or not. 
+If it has a continous dividend , it computes the roe based on that otherwise it will compute based on the ```capm``` model.
+
+```diff
+
+- Note
+
+We need to refactor this code to give a choice of whether the user wants dividend model of roe or capm model of roe.
+
+```
+
+<b>calculate_wacc_dividend</b>
+
+This functionality calculates the ```weighted average cost of capital``` based on the ```gordon dividend model```.
+It calculates the wacc using both default tax rate (30%) and the calculated marginal tax rate. 
+
+```diff
+
+- Note
+
+It future (once CAPM is done) we will make this the caller function that will either call DividendModel or CAPM model to calculate the wacc.
+
+```
+
+---
+
+#### Submodule : CAPM
+
+This submodule contains the functionalities required to calculate intrinsic value using the ```capital asset pricing model```.
 
