@@ -49,3 +49,29 @@ Formats the financial sheet fetched into predetermined format.
 This is also a internal functionality.
 
 ---
+
+#### DividendDetails
+
+This submodule fetches dividend history and format it into proper format.
+
+<b>__extract_stock_data</b>
+
+Extracts the required url information. This is an internal function.
+Also, in case of multiple results being fetched, it selects the appropiate stock company.
+
+<b>get_dividend_history</b>
+
+This is the main function of this submodule. 
+It takes a nse id as input , fetches relevant stock details and then fetches and formats the dividend history. 
+
+<b>__format_dividend_table</b>
+
+Internal function that formats a given dividend history dataframe.
+It drops unnecessary columns ```('Dividend Type','Record Date')``` and converts ```Ex-Date``` into a time series (having only year).
+The rows of dividend for same year is added. 
+Finally, ```Ex-Date``` is made into row index. 
+
+---
+
+
+
