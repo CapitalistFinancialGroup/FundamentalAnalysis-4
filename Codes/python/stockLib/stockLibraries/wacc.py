@@ -155,7 +155,7 @@ def calculate_wacc_dividend(nseId,current_stock_price,outstanding_shares):
     #total debt and equity
     total_debt_equity = current_total_debt + market_value_equity
     
-    tax_rate = market_value_equity(incomestatement_df)
+    tax_rate = marginal_tax_rate(incomestatement_df)
     default_tax_rate = 30
     
     #percentage of equity and debt
