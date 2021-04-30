@@ -1,8 +1,10 @@
-dividend:
-  default:
+default:
+  dividend:
     rate_of_equity: 10
     rate_of_debt: 10
     marginal_tax_rate: 30
+  risk_free:
+    rate: 6
 
 url:
   moneycontrol:
@@ -19,3 +21,7 @@ url:
 
     dividend:
       full_url: "https://trendlyne.com/equity/Dividend/" 
+      
+  investing:
+    t_bill_91:
+      full_url: "https://in.investing.com/instruments/HistoricalDataAjax"    
