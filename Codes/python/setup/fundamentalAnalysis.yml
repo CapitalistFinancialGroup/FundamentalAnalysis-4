@@ -1,0 +1,21 @@
+# /home/subora/.config/tmuxinator/fundamentalAnalysis.yml
+
+name: fundamentalAnalysis
+root: ~/Documents/github_repository/FundamentalAnalysis/Codes/python/stockLib/stockLibraries
+
+startup_window : workspace
+
+windows:
+  - setup:
+      layout: main-horizontal
+      panes:
+        - spyder_setup:
+          - conda activate stockAnalysis
+          - spyder
+        - jupyter_setup:
+          - conda activate stockAnalysis
+          - jupyter notebook
+  - workspace:
+      layout: tiled
+      panes:
+        - conda activate stockAnalysis
