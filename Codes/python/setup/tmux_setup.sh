@@ -16,7 +16,7 @@ split-window \; \
 send-keys 'source /home/subora/anaconda3/etc/profile.d/conda.sh' C-m \; \
 send-keys 'conda activate stockAnalysis' C-m \; \
 send-keys 'spyder' C-m \; \
-split-window \; \
+select-layout tiled \; \
+new-window \; \
 send-keys 'source /home/subora/anaconda3/etc/profile.d/conda.sh' C-m \; \
 send-keys 'conda activate stockAnalysis' C-m \; \
-select-layout tiled \
