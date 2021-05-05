@@ -16,6 +16,8 @@ import datetime
 from dateutil.relativedelta import relativedelta
 import requests
 from bs4 import BeautifulSoup
+import time as time
+from io import StringIO
 
 def calculate_cod(balance_df,income_df):
     """
@@ -233,7 +235,164 @@ def risk_free_return():
     
     return risk_free_return_rate
 
+
+def get_expected_return_stock(nseId):
+    """
     
+    Calculate the yearly daily return for stock/index
+
+    Parameters
+    ----------
+    nseId : str
+        The nse ticker id.
+
+    Returns
+    -------
+    float
+        The expected market return of the stock.
+    float
+        The expected market return of the index (NIFTY 50).
+
+    """
+    
+    current_time = datetime.datetime.now()
+    previous_time = current_time - relativedelta(years=1)
+    
+    print("Fetching NSE Data")
+    
+    # get nifty df
+    nifty50_df = fetch_price_data_nifty50(current_time,previous_time)
+    
+    print("Fetching {} data".format(nseId))
+    # fetch data of nse id
+    stock_df = get_historical_price_stock(nseId,current_time,previous_time)
+    
+    #add percentage change on both
+    nifty50_df['Percentage Change'] = nifty50_df['Price'].pct_change()
+    stock_df['Percentage Change'] = stock_df['ltp '].pct_change()
+    
+    #calculate expected return daily
+    avg_price_change_stock = stock_df['Percentage Change'].mean()
+    avg_price_change_nifty50 = nifty50_df['Percentage Change'].mean()
+    
+    #calculate yearly expected return
+    yearly_expected_return_stock = ((1 + avg_price_change_stock)**365)-1
+    yearly_expected_return_market = ((1+ avg_price_change_nifty50)**365)-1
+    
+    return yearly_expected_return_stock*100,yearly_expected_return_market*100
+
+def fetch_price_data_nifty50(ct,pt):
+    """
+    Fetches the daily historical price for 1 year for NIFTY 50 index
+
+    Parameters
+    ----------
+    ct : datetime
+        The Current date.
+    pt : datetime
+        The date 1 year previous.
+
+    Returns
+    -------
+    df : dataframe
+        A dataframe containtaing Date and the correspnding price
+        .
+
+    """
+    
+
+    #convert to epoch
+    current_timestamp = int(ct.timestamp())
+    previous_timestamp = int(pt.timestamp())
+    
+    headers = {
+    'authority': 'in.investing.com',
+    'cache-control': 'max-age=0',
+    'upgrade-insecure-requests': '1',
+    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36',
+    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+    'sec-gpc': '1',
+    'sec-fetch-site': 'none',
+    'sec-fetch-mode': 'navigate',
+    'sec-fetch-user': '?1',
+    'sec-fetch-dest': 'document',
+    'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+    'cookie': '__cfduid=d3c2e1fe62f9856cf29821a05e88b54811619441949; SideBlockUser=a%3A2%3A%7Bs%3A10%3A%22stack_size%22%3Ba%3A1%3A%7Bs%3A11%3A%22last_quotes%22%3Bi%3A8%3B%7Ds%3A6%3A%22stacks%22%3Ba%3A1%3A%7Bs%3A11%3A%22last_quotes%22%3Ba%3A1%3A%7Bi%3A0%3Ba%3A3%3A%7Bs%3A7%3A%22pair_ID%22%3Bs%3A5%3A%2224003%22%3Bs%3A10%3A%22pair_title%22%3Bs%3A0%3A%22%22%3Bs%3A9%3A%22pair_link%22%3Bs%3A37%3A%22%2Frates-bonds%2Findia-3-month-bond-yield%22%3B%7D%7D%7D%7D; adBlockerNewUserDomains=1619441951; udid=f54e7210e8e3bc9b35a468ba65a8ad14; G_ENABLED_IDPS=google; _fbp=fb.1.1619441955314.16268788; r_p_s_n=1; PHPSESSID=ojh953jnvn10jlr2df6l722n98; StickySession=id.22709788039.279in.investing.com; _tz_id=d1084eeb396bb44ef6ef1f44c51b7af5; welcomePopup=1; geoC=IN; nyxDorf=ODk%2BZGYuZDo3YWFqYy41NWIyZjw1LDAwNTdlYw%3D%3D; __cflb=02DiuF9qvuxBvFEb2qB1HcuDLvqD9ieP4VA1bEKif7H4g; ses_id=MX8xcGJtMjphJWlvZzY3NTJhM2wzMWVmZ29nbDs0Z3EwJGZoNWI%2BeGRrbiAwMzYqZGU3MjZiMGM9b2Y4N2RnOzEyMWRiYjJpYTRpYGc3N2EyazNoM2dlNGdgZ2M7aGduMDZmNzViPjNkNG5jMDg2O2R2Nys2cjAhPW9mNjd2ZyAxPjFwYjIybmE%2BaWVnNDc2MjIzOjM9ZWdnN2dkOzlnfzB7; smd=f54e7210e8e3bc9b35a468ba65a8ad14-1620052261',
+     }
+    params = (
+    ('end_date', int(current_timestamp)),
+    ('st_date', int(previous_timestamp)),
+    ) 
+    
+    response = requests.get('https://in.investing.com/indices/s-p-cnx-nifty-historical-data', headers=headers, params=params)
+    print("Fetch Status {}".format(response))
+    soup = BeautifulSoup(response.content, "lxml")
+    table = soup.find('table', attrs={'class':'common-table medium js-table'})
+    df = pd.read_html(str(table))[0]
+    
+    #drop columns and keep only Date and Price
+    df = df.drop(['Open','High','Low','Volume','Chg%'],axis=1)
+    
+    #change the Date to timestamp and change to the format %Y-%m-%d
+    df['Date'] = pd.to_datetime(df['Date']).dt.strftime("%Y-%m-%d")
+    
+    df = df.sort_values(by = ['Date'])
+        
+    return df
+
+def get_historical_price_stock(nseId,ct,pt):
+    """
+    Fetches the 1 year daily historical price for the stock
+
+    Parameters
+    ----------
+    nseId : str
+        The nse ticker id.
+    ct : datetime
+        The current date.
+    pt : datetime
+        The date 1 year previous to ct.
+
+    Returns
+    -------
+    df : dataframe
+        The dataset contains the date and historical price of the stock.
+
+    """
+    
+    
+    #change the timestamp to DD-MM-YYYY format
+    ct = ct.strftime("%d-%m-%Y")
+    pt = pt.strftime("%d-%m-%Y")
+    
+    
+    head = {
+    'user-agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                  "Chrome/87.0.4280.88 Safari/537.36 "
+    }
+    
+    session = requests.session()
+    session.get("https://www.nseindia.com", headers=head)
+    session.get("https://www.nseindia.com/get-quotes/equity?symbol=" + nseId, headers=head)  # to save cookies
+    session.get("https://www.nseindia.com/api/historical/cm/equity?symbol="+nseId, headers=head)
+    url = "https://www.nseindia.com/api/historical/cm/equity?symbol=" + nseId + "&series=[%22EQ%22]&from=" + pt + "&to=" + ct + "&csv=true"
+    webdata = session.get(url=url, headers=head)
+    
+    
+    df = pd.read_csv(StringIO(webdata.text[3:]))
+    
+    #formatting the dataframe to contain only Date and ltp
+    df = df.drop(['series ','OPEN ','HIGH ','LOW ','PREV. CLOSE ','close ','vwap ','52W H ','52W L ','VOLUME ','VALUE ','No of trades '],axis=1)
+
+    # changing Date column to timestamp and putting it in the format of YYYY-mm-dd
+    # as we will need to sort it
+    df['Date '] = pd.to_datetime(df['Date ']).dt.strftime("%Y-%m-%d")
+    
+    #sorting df based on Date column in ascending order
+    df = df.sort_values(by = ['Date '])
+    
+    
+    return df
     
     
     
