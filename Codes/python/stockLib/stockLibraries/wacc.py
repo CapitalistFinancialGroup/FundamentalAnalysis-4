@@ -393,6 +393,48 @@ def get_historical_price_stock(nseId,ct,pt):
     
     
     return df
+
+def beta(nseId):
+    """
+    Functionality to calculate the beta value of a stock
+
+    Parameters
+    ----------
+    nseId : str
+        nse ticker id of a stock.
+
+    Returns
+    -------
+    beta_value : float
+        the beta value of the stock against Nifty 50.
+
+    """
+    
+    current_time = datetime.datetime.now()
+    previous_time = current_time - relativedelta(years=1)
+    
+    print("Fetching NSE Data")
+    
+    # get nifty df
+    nifty50_df = fetch_price_data_nifty50(current_time,previous_time)
+    
+    print("Fetching {} data".format(nseId))
+    # fetch data of nse id
+    stock_df = get_historical_price_stock(nseId,current_time,previous_time)
+    
+    #add percentage change on both
+    nifty50_df['Percentage Change'] = nifty50_df['Price'].pct_change()*100
+    stock_df['Percentage Change'] = stock_df['ltp '].pct_change()*100
+    
+    #calculate covariance and variance 
+    cov_data = nifty50_df['Percentage Change'].cov(stock_df['Percentage Change'])
+    
+    var_data = stock_df['Percentage Change'].var()
+    
+    beta_value = cov_data/var_data
+    
+    return beta_value
+    
     
     
     
