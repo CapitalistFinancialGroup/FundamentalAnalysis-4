@@ -9,9 +9,9 @@ windows:
   - setup:
       layout: main-horizontal
       panes:
-        - spyder_setup:
+        - ide_setup:
           - conda activate stockAnalysis
-          - spyder
+          - pycharm-professional
         - jupyter_setup:
           - conda activate stockAnalysis
           - jupyter notebook

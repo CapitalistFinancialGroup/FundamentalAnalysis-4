@@ -19,7 +19,7 @@ from bs4 import BeautifulSoup
 import time as time
 from io import StringIO
 
-def calculate_cod(balance_df,income_df):
+def calculate_cod_dividend(balance_df,income_df):
     """
     Calculate the cost of debt 
 
@@ -51,6 +51,38 @@ def calculate_cod(balance_df,income_df):
     cod = finance_cost/current_total_debt*100
     
     return cod
+
+def calculate_cod_capm(bdf,idf):
+    """
+    Calculate the required return on debt by capital asset pricing 
+    method
+
+    Parameters
+    ----------
+    bdf : dataframe
+        The balance sheet.
+    idf : dataframe
+        The income statement.
+
+    Returns
+    -------
+    rate_of_debt : TYPE
+        DESCRIPTION.
+
+    """
+
+    #fetch debt current and previous years
+    current_total_debt = float(bdf.loc['Long Term Borrowings','Mar 20']) + float(bdf.loc['Short Term Borrowings','Mar 20'])
+    previous_total_debt = float(bdf.loc['Long Term Borrowings','Mar 19']) + float(bdf.loc['Short Term Borrowings','Mar 19'])
+    
+    average_total_debt = (current_total_debt+previous_total_debt)/2
+    
+    # interest paid current year
+    interest_paid = float(idf.loc['Finance Costs','Mar 20'])
+    
+    rate_of_debt = interest_paid/average_total_debt*100
+    
+    return rate_of_debt,average_total_debt
 
 
 def marginal_tax_rate(income_df):
@@ -236,7 +268,7 @@ def risk_free_return():
     return risk_free_return_rate
 
 
-def get_expected_return_stock(nseId):
+def get_expected_return(nseId):
     """
     
     Calculate the yearly daily return for stock/index
@@ -434,6 +466,52 @@ def beta(nseId):
     beta_value = cov_data/var_data
     
     return beta_value
+
+
+def wacc_capm(nseId,share_price,outstanding_shares):
+    
+    #get the balance sheet and income statement
+    bdf,idf,_ = fd.get_financial_sheet(nseId)
+    
+    #calculate cost of debt
+    cod, total_debt = calculate_cod_capm(bdf,idf)
+    
+    #calculate marginal tax rate
+    mar_tax_rate = marginal_tax_rate(idf)
+
+    # calculate market value
+    market_value = share_price*outstanding_shares
+
+    #get beta
+    beta_value = beta(nseId)
+
+    # calculate expected return of market
+    _ , erm = get_expected_return(nseId)
+
+    risk_free_rate = risk_free_return()
+
+    #calculate return on equity
+    roe = risk_free_rate+beta_value*(erm+risk_free_rate)
+
+    #calculating both the weights
+    weight_equity = market_value/(market_value+ total_debt)*100
+    weight_debt = total_debt/(market_value+total_debt)*100
+
+    assert weight_debt+weight_equity == 100
+
+    wacc = weight_equity/100*roe/100 + weight_debt/100*(1-mar_tax_rate/100)*cod/100
+
+    return wacc*100
+
+if __name__ == '__main__':
+    print(wacc_capm('COALINDIA',130.50,616.27))
+    
+    
+
+    
+    
+    
+    
     
     
     
