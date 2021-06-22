@@ -6,22 +6,28 @@ default:
   risk_free:
     rate: 6
 
-url:
-  moneycontrol:
-    stock_details: 
-       prefix: "https://www.moneycontrol.com/mccode/common/autosuggestion_solr.php?classic=true&query="
-       postfix: "&type=1&format=json"
+# Different websites and their relevant information
 
-    financials: 
-      prefix: "https://www.moneycontrol.com/financials/"
+moneycontrol:
+  stock_details:
+    prefix: "https://www.moneycontrol.com/mccode/common/autosuggestion_solr.php?classic=true&query="
+    postfix: "&type=1&format=json"
 
-  trendlyne:
-    stock_details:
-      full_url: "https://trendlyne.com/member/api/ac_snames/stock/?term="
+  financials:
+    prefix: "https://www.moneycontrol.com/financials/"
+    outstanding_shares:
+      suffix: "/capital-structure/"
 
-    dividend:
-      full_url: "https://trendlyne.com/equity/Dividend/" 
+  stock_price:
+    prefix: "https://www.moneycontrol.com/india/stockpricequote/"
+
+trendlyne:
+  stock_details:
+    full_url: "https://trendlyne.com/member/api/ac_snames/stock/?term="
+
+  dividend:
+    full_url: "https://trendlyne.com/equity/Dividend/"
       
-  investing:
-    t_bill_91:
-      full_url: "https://in.investing.com/instruments/HistoricalDataAjax"    
+investing:
+  t_bill_91:
+    full_url: "https://in.investing.com/instruments/HistoricalDataAjax"

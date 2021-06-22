@@ -18,7 +18,7 @@ def __prepare_configuration() -> dict:
     logging.info("Reading configuration file")
 
     with open('../resources/configuration.yaml') as file:
-        config = yaml.load(file)
+        config = yaml.load(file, Loader=yaml.FullLoader)
 
     return config
 
