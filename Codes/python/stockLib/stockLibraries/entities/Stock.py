@@ -19,15 +19,16 @@ class Stock:
 
     """
 
-    def __init__(self,ticker_name):
+    def __init__(self,ticker_name: str, money_control_service: MoneyControlService):
         # dependency injection
         # won't give any setter or getter as I don't want it to be accessible from an instance
-        self.__money_control_services = MoneyControlService()
+        self.__money_control_services = money_control_service
 
         # other attributes
         self.__stock_name = self.stock_name = ticker_name
         self.__stock_price = self.stock_price = ticker_name
         self.__outstanding_shares = self.outstanding_shares = ticker_name
+        self.__financial_ratios = self.financial_ratios = ticker_name
 
 
     @property
@@ -54,3 +55,11 @@ class Stock:
     @outstanding_shares.setter
     def outstanding_shares(self,ticker_name):
         self.__outstanding_shares = self.__money_control_services.get_outstanding_shares(ticker_name)
+
+    @property
+    def financial_ratios(self):
+        return self.__financial_ratios
+
+    @financial_ratios.setter
+    def financial_ratios(self,ticker_name):
+        self.__financial_ratios = self.__money_control_services.get_ratios(ticker_name)

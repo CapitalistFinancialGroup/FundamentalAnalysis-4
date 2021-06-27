@@ -51,9 +51,12 @@ class MoneyControlService:
         response = requests.get(url)
         response_body = response.json()
 
-        assert len(response_body) == 1
-
+        #usually first entry is the correct
         resp = response_body[0]
+        for dic in response_body:
+            if str(dic['stock_name']).lower() == ticker_name.lower():
+                resp = dic
+
         link_src = resp['link_src']
         extracted_link = link_src.split('/')
 
@@ -99,6 +102,71 @@ class MoneyControlService:
         df = pd.read_html(str(table))[0]
         #always gets the current outstanding share and as it is in the first row, hence use index 0
         return df.loc[0,('- P A I D U P -','Shares (nos)')]
+
+    def get_ratios(self, ticker_name):
+        """
+        Get all financial ratios of the given stock
+
+        Parameters
+        ----------
+        ticker_name (str): the ticker name of the stock
+
+        Returns
+        -------
+        final_df (dataframe): A dataframe containing all financial ration (for all the years) available in money control
+        """
+
+        stock_abbv, stock_name, _ = self.__get_basic_stock_information(ticker_name)
+        count = 1
+        url_permanent = self.__config_details['ratios']['prefix'] + stock_name + self.__config_details['ratios']['suffix'] + stock_abbv + "/"
+        url_suffix_current = str(count)+ "#" + stock_abbv
+        url_string = url_permanent + url_suffix_current
+        final_df = pd.DataFrame()
+
+        while True:
+
+            # fetch the current page
+            url = urlopen(url_string).read()
+            soup = BeautifulSoup(url, 'lxml')
+
+            #end condition - check if nodata class is present
+            tags = soup.find_all('div',attrs={'class':'nodata'})
+            if not len(tags)  == 0:
+                break
+
+            # fetch table and add to dataframe
+            table = soup.find('table',attrs={'class':'mctable1'})
+            current_df = pd.read_html(str(table))[0]
+
+            #format the dataframe
+            #drop last column
+            current_df = current_df.drop(columns=current_df.columns[-1])
+            #make row 1 as current column
+            current_df.columns = current_df.iloc[0]
+            #drop first two row
+            current_df = current_df.iloc[2:]
+            #make first column as index
+            current_df = current_df.set_index(current_df.columns[0])
+            #concatenate with the final dataframe
+            final_df = pd.concat([final_df, current_df], axis= 1)
+
+            # add to count to make new current url
+            count +=1
+            url_suffix_current = str(count) + "#" + stock_abbv
+            url_string = url_permanent + url_suffix_current
+
+        #convert all column datatype to float
+        final_df = final_df.astype('float')
+        return final_df
+
+if __name__=="__main__":
+    obj = MoneyControlService()
+    df = obj.get_ratios("ITC")
+
+
+
+
+
 
 
 

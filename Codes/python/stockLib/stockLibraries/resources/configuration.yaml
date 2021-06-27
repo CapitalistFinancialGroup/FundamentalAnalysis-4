@@ -13,10 +13,14 @@ moneycontrol:
     prefix: "https://www.moneycontrol.com/mccode/common/autosuggestion_solr.php?classic=true&query="
     postfix: "&type=1&format=json"
 
-  financials:
+  financial_statements:
     prefix: "https://www.moneycontrol.com/financials/"
     outstanding_shares:
       suffix: "/capital-structure/"
+
+  ratios:
+    prefix: "https://www.moneycontrol.com/financials/"
+    suffix: "/ratiosVI/"
 
   stock_price:
     prefix: "https://www.moneycontrol.com/india/stockpricequote/"
