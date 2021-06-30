@@ -1,11 +1,12 @@
 """
 ==============
-Enttty : Stock
+Entity : Stock
 ==============
 
 Encapsulation of the stock entity with relevant details
 """
 from Services.MoneyControlService import MoneyControlService
+from Services.TrendlyneService import TrendlyneService
 
 class Stock:
     """
@@ -19,10 +20,11 @@ class Stock:
 
     """
 
-    def __init__(self,ticker_name: str, money_control_service: MoneyControlService):
+    def __init__(self,ticker_name: str, money_control_service: MoneyControlService, trendlyne_service: TrendlyneService):
         # dependency injection
         # won't give any setter or getter as I don't want it to be accessible from an instance
         self.__money_control_services = money_control_service
+        self.__trendlyne_services = trendlyne_service
 
         # other attributes
         self.__stock_name = self.stock_name = ticker_name
@@ -32,6 +34,7 @@ class Stock:
         self.__balance_sheet = self.balance_sheet = ticker_name , "balance_sheet"
         self.__cashflow_statement = self.cashflow_statement = ticker_name, "cash_flow_statement"
         self.__income_statement = self.income_statement = ticker_name, "income_statement"
+        self.__dividend_history = self.dividend_history = ticker_name
 
 
     @property
@@ -90,4 +93,12 @@ class Stock:
     @income_statement.setter
     def income_statement(self, values):
         self.__income_statement = self.__money_control_services.get_financial_report(values[0],values[1])
+
+    @property
+    def dividend_history(self):
+        return self.__dividend_history
+
+    @dividend_history.setter
+    def dividend_history(self,ticker_name):
+        self.__dividend_history = self.__trendlyne_services.get_dividend_history(ticker_name)
 
