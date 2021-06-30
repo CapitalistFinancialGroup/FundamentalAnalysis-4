@@ -7,6 +7,8 @@ Encapsulation of the stock entity with relevant details
 """
 from Services.MoneyControlService import MoneyControlService
 from Services.TrendlyneService import TrendlyneService
+import numpy as np
+import datetime
 
 class Stock:
     """
@@ -17,6 +19,10 @@ class Stock:
     stock_name (str): The ticker id of the stock
     stock_price (float): The last traded price of the stock
     outstanding_shares (numpy.int64) : The number of publically traded shares of the company
+
+    Functions
+    =========
+    check_dividend_history : Sanity check of the dividend history of the stock
 
     """
 
@@ -101,4 +107,56 @@ class Stock:
     @dividend_history.setter
     def dividend_history(self,ticker_name):
         self.__dividend_history = self.__trendlyne_services.get_dividend_history(ticker_name)
+
+
+    def check_dividend_history(self)-> bool:
+        """
+        Sanity check of the dividend history of the company
+        1. Checks dividend is paid every year (no discontinuity).
+        2. Checks the last dividend paid is this year or atmost last year.
+
+        Returns
+        -------
+        Boolean flag : True if the dividend history passes sanity check else false
+
+        """
+
+        dividend_df = self.__dividend_history
+
+        #check if dividend history is not empty , if empty return false
+        if len(dividend_df) == 0:
+            return False
+
+        # check if dividend history is continous
+
+        # Step 1: Delete all columns with Dividend amount = 0
+        dividend_df = dividend_df[dividend_df['Dividend Amount'] != 0]
+
+        # Additional check to see if the latest dividend is this year or last year
+        current_year = int(datetime.datetime.now().year)
+        # Get start year and end year from index
+        start_year = dividend_df.index[0]
+        end_year = dividend_df.index[-1]
+
+        # Step 2: Create time range [done in set]
+        time_range = set(np.arange(start_year,end_year+1,1))
+        dividend_year_range = set(dividend_df.index)
+
+        if ~(current_year == end_year or current_year == end_year - 1):
+            print("The dividend history is not latest")
+            return False
+
+        # Step 4: Compute missing year
+        missing_years = time_range.difference(dividend_year_range)
+
+        return len(missing_years) == 0 and len(time_range) == len(dividend_year_range)
+
+
+if __name__=="__main__":
+    stock_obj = Stock("AXISBANK",MoneyControlService(),TrendlyneService())
+    print(stock_obj.check_dividend_history())
+
+
+
+
 
