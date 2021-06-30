@@ -136,7 +136,7 @@ def __format_financial_sheet(placeholder01,placeholder02,sheet_type):
     print("The url being used to fetch the financial data {}".format(sheet_url))
     sheet_df = __get_financial_data(sheet_url)
     
-    #remote the last column
+    #remove the last column
     sheet_df = sheet_df.iloc[:, :-1]
     
     #make the first column an index
