@@ -8,7 +8,6 @@ Encapsulation for the services that communicate with nse india
 
 import pandas as pd
 from helper.util import resolve_config_value
-from entities.Stock import Stock
 
 class NseIndiaService:
     """
