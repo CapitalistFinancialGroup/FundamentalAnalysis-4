@@ -1,10 +1,8 @@
 default:
-  dividend:
-    rate_of_equity: 10
-    rate_of_debt: 10
-    marginal_tax_rate: 30
-  risk_free:
-    rate: 6
+  rate_of_equity: 10
+  rate_of_debt: 10
+  marginal_tax_rate: 30
+  risk_free_rate: 6
 
 # Different websites and their relevant information
 
@@ -35,3 +33,13 @@ trendlyne:
 investing:
   t_bill_91:
     full_url: "https://in.investing.com/instruments/HistoricalDataAjax"
+  nifty_50:
+    full_url: "https://in.investing.com/indices/s-p-cnx-nifty-historical-data"
+
+nse_india:
+  base_url: "https://www.nseindia.com"
+  stock_details: "/get-quotes/equity?symbol="
+  stock_historical_data: "/api/historical/cm/equity?symbol="
+  stock_historical_data_download: "/api/historical/cm/equity?symbol="
+
+
