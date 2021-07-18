@@ -4,7 +4,7 @@ import datetime
 class InvestingService:
 
     def __init__(self):
-        self.__config_details = resolve_config_value('investing')
+        self.__config_details = resolve_config_value(['investing'])
 
     def fetch_price_data_nifty50(self, ct: datetime, pt: datetime):
         """

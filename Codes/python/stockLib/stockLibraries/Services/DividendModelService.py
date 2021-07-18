@@ -11,6 +11,7 @@ import pandas as pd
 from entities.Stock import Stock
 import logging
 from helper.util import resolve_config_value
+from Services.iModelServiceInterface import iModelServiceInterface
 
 class DividendModelService(iModelServiceInterface):
 
@@ -30,13 +31,17 @@ class DividendModelService(iModelServiceInterface):
 
         dividend_df = stock_obj.dividend_history
         current_share_price = stock_obj.stock_price
-        total_years = len(dividend_df)
 
         #usually the cod by Dividend Gordon method should be possible (as resolved by factory) - incase it is not
-        if ~stock_obj.check_dividend_history():
+        if not stock_obj.check_dividend_history():
             logging.info("Returning default cost of equity as the stock failed dividend check")
-            return float(resolve_config_value(['default','dividend','rate_of_equity']))
+            return float(resolve_config_value(['default','rate_of_equity']))
 
+        # for the remaining part we will remove the initial years if the Dividend Amount is 0
+        start_index = dividend_df['Dividend Amount'].__ne__(0).idxmax()
+        dividend_df = dividend_df.loc[start_index:,:]
+        # substracting 1 as the first year of dividend payout is not calculated for geometric growth rate
+        total_years = len(dividend_df) -1
         # calculate percentage change of dividend and add it as an additional
         # column in the dataframe
         dividend_df['Percentage Change'] = dividend_df['Dividend Amount'].pct_change()
@@ -60,6 +65,7 @@ class DividendModelService(iModelServiceInterface):
         logging.info("Have selected the growth rate for dividends to be {}".format(growth_rate))
         # Project for the next 5 years.
         last_year = dividend_df.index[-1]
+        year_of_concern = last_year + 1
 
         for i in range(5):
             projected_amount = dividend_df.loc[last_year, 'Dividend Amount'] * (1 + growth_rate / 100)
@@ -71,8 +77,8 @@ class DividendModelService(iModelServiceInterface):
             # calculate cost of equity
         logging.info(
             "Calculating the cost of equity with dividend amount: {}, current share price: {} and a conservative growth rate of {}".format(
-                dividend_df.loc[dividend_df.index[-1], 'Dividend Amount'], current_share_price, growth_rate))
-        roe = (dividend_df.loc[dividend_df.index[-1], 'Dividend Amount'] / current_share_price) * 100 + growth_rate
+                dividend_df.loc[year_of_concern, 'Dividend Amount'], current_share_price, growth_rate))
+        roe = (dividend_df.loc[year_of_concern, 'Dividend Amount'] / current_share_price) * 100 + growth_rate
         return roe
 
     def calculate_cod(self,stock_obj: Stock)->float:

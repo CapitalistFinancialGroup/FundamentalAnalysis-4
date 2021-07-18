@@ -6,6 +6,7 @@ This file includes functionalities to aide the library in its functionality.
 """
 import yaml
 import logging
+from enum import Enum
 
 def __prepare_configuration() -> dict:
     """
@@ -42,4 +43,7 @@ def resolve_config_value(keys):
         config_value = config_value[key]
 
     return config_value
+
+finance_model = Enum('Finance Model','CAPM Dividend')
+
 

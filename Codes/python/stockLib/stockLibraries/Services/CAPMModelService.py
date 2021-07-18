@@ -7,7 +7,8 @@ Created on Sun Apr 25 11:49:09 2021
 """
 import pandas as pd
 from entities.Stock import Stock
-from InvestingService import InvestingService
+from Services.InvestingService import InvestingService
+from Services.iModelServiceInterface import iModelServiceInterface
 
 class CAPMModelService(iModelServiceInterface):
 

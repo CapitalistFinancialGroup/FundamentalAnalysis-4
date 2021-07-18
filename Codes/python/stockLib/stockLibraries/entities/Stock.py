@@ -12,6 +12,7 @@ from Services.InvestingService import InvestingService
 from helper.util import resolve_config_value
 import numpy as np
 import datetime
+from dateutil.relativedelta import relativedelta
 
 class Stock:
     """

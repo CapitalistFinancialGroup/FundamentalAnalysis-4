@@ -5,10 +5,10 @@ iModelService
 
 """
 import abc
-import entities.Stock
+from entities.Stock import Stock
 
 
-class iModelService(metaclass=abc.ABCMeta):
+class iModelServiceInterface(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def calculate_roe(self,stock : Stock)-> float:
