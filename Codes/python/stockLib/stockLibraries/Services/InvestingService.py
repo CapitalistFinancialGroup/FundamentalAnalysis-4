@@ -1,7 +1,28 @@
+"""
+======================
+Investing Services
+======================
+
+Encapsulation for services provided by investing.com
+"""
 from helper.util import resolve_config_value
 import datetime
+from dateutil.relativedelta import relativedelta
+import requests
+from bs4 import BeautifulSoup
+from urllib.request import urlopen
+import pandas as pd
 
 class InvestingService:
+    """
+    Encapuslation for the services provided by investing.com
+
+    Functions
+    =========
+    1. fetch_price_data_nifty50 : Fetches the daily historical price of NIFTY 50
+    2. risk_free_return : Calculates the risk free rate (in percentage and yearly) for T91 day treasury bill
+
+    """
 
     def __init__(self):
         self.__config_details = resolve_config_value(['investing'])
@@ -67,7 +88,7 @@ class InvestingService:
 
     def risk_free_return(self):
         """
-        Calculates the rate of return of a risk free commodity.
+        Calculates the rate of return of a risk free commodity (in percentage and yearly).
         Currently the 1 year daily historical return rate of Indian Government 91 days T bill
         is considered.
 
@@ -120,4 +141,5 @@ class InvestingService:
         # Step 3 : calculating the rate
         risk_free_return_rate = df['Price'].mean()
 
+        # already in percentage and yearly
         return risk_free_return_rate

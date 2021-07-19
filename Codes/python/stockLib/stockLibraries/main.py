@@ -6,6 +6,7 @@ from Services.NseIndiaService import NseIndiaService
 from Services.InvestingService import InvestingService
 from Services.Factory import Factory
 from Services.iModelServiceInterface import iModelServiceInterface
+from helper.util import finance_model
 
 
 if __name__=="__main__":
@@ -15,7 +16,7 @@ if __name__=="__main__":
     factory_instance = Factory()
     model_service = factory_instance.create_model(stock_obj)
 
-    print(model_service.calculate_roe(stock_obj))
+    print(model_service.calculate_cod(stock_obj))
 
 
 

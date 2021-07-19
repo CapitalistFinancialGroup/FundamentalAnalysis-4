@@ -84,13 +84,13 @@ class CAPMModelService(iModelServiceInterface):
         return wacc * 100
 
 
-    def calculate_roe(self):
+    def calculate_roe(self, stock_obj: Stock):
 
         risk_free_rate = self.__investing_services.risk_free_return()
         beta_value = stock_obj.calculate_beta()
         _, erm = stock_obj.calculate_expected_return()
 
-        return risk_free_rate + beta_value * (erm + risk_free_rate)
+        return risk_free_rate + beta_value * (erm - risk_free_rate)
 
 
 

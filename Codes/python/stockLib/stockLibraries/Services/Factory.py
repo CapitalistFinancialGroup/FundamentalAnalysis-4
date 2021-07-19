@@ -9,6 +9,7 @@ Factory class for entire project
 from Services.CAPMModelService import CAPMModelService
 from Services.DividendModelService import DividendModelService
 from Services.iModelServiceInterface import iModelServiceInterface
+from Services.InvestingService import InvestingService
 from helper.util import finance_model
 from entities.Stock import Stock
 
@@ -38,7 +39,7 @@ class Factory:
 
         if not (type==None):
             if type == finance_model.CAPM.name:
-                return CAPMModelService()
+                return CAPMModelService(InvestingService())
             if type == finance_model.Dividend.name:
                 return DividendModelService()
             else:
@@ -47,4 +48,4 @@ class Factory:
         if stock_obj.check_dividend_history():
             return DividendModelService()
         else:
-            return CAPMModelService()
+            return CAPMModelService(InvestingService())

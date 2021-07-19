@@ -200,7 +200,7 @@ class Stock:
         # calculate covariance and variance
         cov_data = nifty50_df['Percentage Change'].cov(stock_df['Percentage Change'])
 
-        var_data = stock_df['Percentage Change'].var()
+        var_data = nifty50_df['Percentage Change'].var()
 
         beta_value = cov_data / var_data
 
