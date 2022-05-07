@@ -42,42 +42,14 @@ class Stock:
         self.__nse_services = nse_service
         self.__investing_service = investing_service
 
-        # other attributes
-        self.__stock_name = self.stock_name = ticker_name
-        self.__stock_price = self.stock_price = ticker_name
-        self.__outstanding_shares = self.outstanding_shares = ticker_name
-        self.__financial_ratios = self.financial_ratios = ticker_name
-        self.__balance_sheet = self.balance_sheet = ticker_name , "balance_sheet"
-        self.__cashflow_statement = self.cashflow_statement = ticker_name, "cash_flow_statement"
-        self.__income_statement = self.income_statement = ticker_name, "income_statement"
-        self.__dividend_history = self.dividend_history = ticker_name
-        self.__historical_data = self.historical_data = ticker_name, datetime.datetime.now(), datetime.datetime.now() - relativedelta(years=1)
+        self.set_stock_details(ticker_name)
+        self.__financial_ratios = None
+        self.__balance_sheet = None
+        self.__cashflow_statement = None
+        self.__income_statement = None
+        self.__dividend_history = None
+        self.__historical_data = None
 
-
-    @property
-    def stock_name(self):
-        return self.__stock_name
-
-    @stock_name.setter
-    def stock_name(self,var):
-        self.__stock_name = var
-
-    @property
-    def stock_price(self):
-        return self.__stock_price
-
-    #TODO : Better way to call setter without variable
-    @stock_price.setter
-    def stock_price(self,ticker_name):
-        self.__stock_price = self.__money_control_services.get_stock_price(ticker_name)
-
-    @property
-    def outstanding_shares(self):
-        return self.__outstanding_shares
-
-    @outstanding_shares.setter
-    def outstanding_shares(self,ticker_name):
-        self.__outstanding_shares = self.__money_control_services.get_outstanding_shares(ticker_name)
 
     @property
     def financial_ratios(self):
@@ -92,24 +64,24 @@ class Stock:
         return self.__balance_sheet
 
     @balance_sheet.setter
-    def balance_sheet(self,values):
-        self.__balance_sheet = self.__money_control_services.get_financial_report(values[0],values[1])
+    def balance_sheet(self,ticker_name):
+        self.__balance_sheet = self.__money_control_services.get_financial_report(ticker_name,"balance_sheet")
 
     @property
     def cashflow_statement(self):
         return  self.__cashflow_statement
 
     @cashflow_statement.setter
-    def cashflow_statement(self, values):
-        self.__cashflow_statement = self.__money_control_services.get_financial_report(values[0],values[1])
+    def cashflow_statement(self, ticker_name):
+        self.__cashflow_statement = self.__money_control_services.get_financial_report(ticker_name,"cash_flow_statement")
 
     @property
     def income_statement(self):
         return self.__income_statement
 
     @income_statement.setter
-    def income_statement(self, values):
-        self.__income_statement = self.__money_control_services.get_financial_report(values[0],values[1])
+    def income_statement(self, ticker_name):
+        self.__income_statement = self.__money_control_services.get_financial_report(ticker_name, "income_statement")
 
     @property
     def dividend_history(self):
@@ -124,12 +96,15 @@ class Stock:
         return self.__historical_data
 
     @historical_data.setter
-    def historical_data(self,values):
-        ticker_name = values[0]
-        end_time = values[1]
-        start_time = values[2]
+    def historical_data(self, ticker_name, end_time= datetime.datetime.now(), start_time = datetime.datetime.now() -
+                                                                                           relativedelta(years=1)):
         self.__historical_data = self.__nse_services.get_historical_prices(ticker_name, end_time, start_time)
 
+    def set_stock_details(self, ticker_name):
+        self.stock_name = ticker_name
+        self.stock_price, self.outstanding_shares, self.basic_industry, self.symbol_pe, self.sectoral_index_pe, \
+        self.sectoral_index, self.macro, self.industry =\
+            self.__nse_services.get_stock_metadata(self.stock_name)
 
 
     def check_dividend_history(self)-> bool:

@@ -38,7 +38,8 @@ investing:
 
 nse_india:
   base_url: "https://www.nseindia.com"
-  stock_details: "/get-quotes/equity?symbol="
+  base_stock_details: "/get-quotes/equity?symbol="
+  stock_details: "/api/quote-equity?symbol="
   stock_historical_data: "/api/historical/cm/equity?symbol="
   stock_historical_data_download: "/api/historical/cm/equity?symbol="
 
