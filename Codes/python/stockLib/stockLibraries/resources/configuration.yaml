@@ -3,6 +3,8 @@ default:
   rate_of_debt: 10
   marginal_tax_rate: 30
   risk_free_rate: 6
+  source_file: "/resources/stocks.xlsx"
+  target_path: "/resources/stock_metadata.xlsx"
 
 # Different websites and their relevant information
 
@@ -42,5 +44,6 @@ nse_india:
   stock_details: "/api/quote-equity?symbol="
   stock_historical_data: "/api/historical/cm/equity?symbol="
   stock_historical_data_download: "/api/historical/cm/equity?symbol="
+  market_capital_suffix: "&section=trade_info"
 
 

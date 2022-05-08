@@ -33,8 +33,10 @@ class Stock:
 
     """
 
-    def __init__(self,ticker_name: str, money_control_service: MoneyControlService, trendlyne_service: TrendlyneService,
-                 nse_service: NseIndiaService, investing_service: InvestingService):
+    def __init__(self,ticker_name: str, money_control_service: MoneyControlService = MoneyControlService(), \
+                 trendlyne_service: TrendlyneService = TrendlyneService() , \
+                 nse_service: NseIndiaService = NseIndiaService(), \
+                 investing_service: InvestingService = InvestingService()):
         # dependency injection
         # won't give any setter or getter as I don't want it to be accessible from an instance
         self.__money_control_services = money_control_service
@@ -103,7 +105,7 @@ class Stock:
     def set_stock_details(self, ticker_name):
         self.stock_name = ticker_name
         self.stock_price, self.outstanding_shares, self.basic_industry, self.symbol_pe, self.sectoral_index_pe, \
-        self.sectoral_index, self.macro, self.industry =\
+        self.sectoral_index, self.macro, self.industry, self.market_cap, self.ffmc, self.status =\
             self.__nse_services.get_stock_metadata(self.stock_name)
 
 

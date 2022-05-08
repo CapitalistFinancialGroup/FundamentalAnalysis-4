@@ -6,6 +6,7 @@ NSE India Web Services
 Encapsulation for the services that communicate with nse india
 """
 
+import urllib
 import pandas as pd
 from helper.util import resolve_config_value
 import datetime
@@ -132,22 +133,61 @@ class NseIndiaService:
         session.get(base_url, headers=head)
         session.get(base_url + self.__config_details['base_stock_details'] + ticker_name, headers=head)
         # to save cookies
-        url = base_url + self.__config_details['stock_details'] + ticker_name
+        url = base_url + self.__config_details['stock_details'] + urllib.parse.quote(ticker_name)
         head['cookie'] = self.create_cookies(session.cookies.get_dict(),ticker_name)
         #session.get(url, headers=head)
         response = requests.get(url, headers=head).json()
 
-        industry = response['metadata']['industry']
-        sector_pe = response['metadata']['pdSectorPe']
-        symbol_pe = response['metadata']['pdSymbolPe']
-        sector_industry = response['metadata']['pdSectorInd']
-        status = response['securityInfo']['tradingStatus']
-        macro = response['industryInfo']['macro']
-        #sector = response['industryInfo']['sector']
-        basic_industry = response['industryInfo']['basicIndustry']
-        outstanding_share = response['securityInfo']['issuedSize']
-        stock_price = response['priceInfo']['lastPrice']
+        try:
+            industry = response['metadata']['industry']
+            sector_pe = response['metadata']['pdSectorPe']
+            symbol_pe = response['metadata']['pdSymbolPe']
+            sector_industry = response['metadata']['pdSectorInd']
+        except:
+            print(f'{ticker_name} has no key information for metadata. Putting default value')
+            industry = 'NA'
+            sector_pe = 0.0
+            symbol_pe = 0.0
+            sector_industry = 'NA'
 
-        return stock_price, outstanding_share, basic_industry, symbol_pe, sector_pe, sector_industry, macro, industry
+        try:
+            status = response['securityInfo']['tradingStatus']
+            outstanding_share = response['securityInfo']['issuedSize']
+        except:
+            print(f'{ticker_name} has no key information for security information. Putting default values')
+            status = 'NA'
+            outstanding_share = 0.0
+
+        try:
+            macro = response['industryInfo']['macro']
+            #sector = response['industryInfo']['sector']
+            basic_industry = response['industryInfo']['basicIndustry']
+        except:
+            print(f'{ticker_name} has no key information for industry information. Putting default values')
+            macro = 'NA'
+            basic_industry = 'NA'
+
+        try:
+            stock_price = response['priceInfo']['lastPrice']
+        except:
+            print(f'{ticker_name} has no key information for price information. Putting default values')
+            stock_price = 0.0
+
+        #get market capital
+        url = url + self.__config_details['market_capital_suffix']
+        response = requests.get(url, headers=head).json()
+
+        try:
+            market_capital = response['marketDeptOrderBook']['tradeInfo']['totalMarketCap']
+            #free floating market capital
+            ffmc = response['marketDeptOrderBook']['tradeInfo']['ffmc']
+        except:
+            print(f'{ticker_name} has no key information for market dept order book information. Putting default values')
+            market_capital = 0.0
+            ffmc = 0.0
+
+
+        return stock_price, outstanding_share, basic_industry, symbol_pe, sector_pe, sector_industry, macro, industry,\
+            market_capital, ffmc, status
 
 
