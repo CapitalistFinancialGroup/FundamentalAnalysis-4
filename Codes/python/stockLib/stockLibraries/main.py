@@ -16,12 +16,17 @@ if __name__=="__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--update_stock", dest='update', type=bool, help='Flag to run stock updater', default=False)
+    parser.add_argument("--format_stock", dest='formatter', type=bool, help='Flag to format csv file to json', default=False)
     args = parser.parse_args()
     if args.update:
         workflow = WorkflowService()
         workflow.updater_workflow()
+    if args.formatter:
+        workflow = WorkflowService()
+        workflow.format_to_json()
 
-    stock_obj = Stock("TRIDENT", MoneyControlService(), TrendlyneService(), NseIndiaService(), InvestingService())
+
+    # stock_obj = Stock("TRIDENT", MoneyControlService(), TrendlyneService(), NseIndiaService(), InvestingService())
     # stock_obj.financial_ratios = stock_obj.stock_name
     # stock_obj.balance_sheet = stock_obj.stock_name
     # stock_obj.cashflow_statement = stock_obj.stock_name

@@ -1,10 +1,17 @@
 import sys
 import os
+import json
+import math
 import pandas as pd
 from helper.util import resolve_config_value
 from entities.Stock import Stock
 
 class WorkflowService:
+    """
+    Responsible for creating different resources to be consumed by frontend
+    Functions:
+    updater_
+    """
 
     def __init__(self):
         self.__config_details = resolve_config_value(['default'])
@@ -44,8 +51,39 @@ class WorkflowService:
                 del stock_obj
             except:
                 print(f'Encountered error. Checkpoint saving')
-                target_df.to_excel(os.getcwd() + self.__config_details['target_path'], index=False)
+                target_df.to_csv(os.getcwd() + self.__config_details['target_path'], index=False)
 
         # store in target
-        target_df.to_excel(os.getcwd() + self.__config_details['target_path'], index= False)
+        target_df.to_csv(os.getcwd() + self.__config_details['target_path'], index= False)
+        self.format_to_json()
+
+    def format_to_json(self) -> None:
+        stock_list_df = pd.read_csv(os.getcwd() + self.__config_details['target_path'])
+        stock_list_df = stock_list_df[stock_list_df['Status'] == 'Active']
+        stock_list_df = stock_list_df[~stock_list_df['Macro'].isna()]
+        macros = list(stock_list_df['Macro'].unique())
+        stock_json = []
+        for macro in macros:
+            tmp = stock_list_df[stock_list_df['Macro'] == macro]
+            tmp = tmp.nlargest(10, 'Market Capital')
+            entry = dict()
+            entry['name'] = macro
+            data = []
+            for index, row in tmp.iterrows():
+                individual_stock = dict()
+                individual_stock['name'] = row['Company Name']
+                if math.isnan(row['Market Capital']):
+                    continue
+                individual_stock['value'] = row['Market Capital']
+                if not math.isnan(row['PE']):
+                    individual_stock['PE'] = row['PE']
+                if not math.isnan(row['Sectoral PE']):
+                    individual_stock['Sectoral PE'] = row['Sectoral PE']
+                data.append(individual_stock)
+            entry['data'] = data
+            stock_json.append(entry)
+
+        with open(os.getcwd() + self.__config_details['json_target_path'], 'w+') as outfile:
+            json.dump(stock_json, outfile)
+
 

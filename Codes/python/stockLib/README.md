@@ -141,3 +141,16 @@ It future (once CAPM is done) we will make this the caller function that will ei
 
 This submodule contains the functionalities required to calculate intrinsic value using the ```capital asset pricing model```.
 
+---
+
+#### Submodule : Workflow service 
+
+This is an updater which runs with the field ```--update```. 
+It depends on ```source_file``` configuration. So we need to update it. 
+
+<b>Steps to update ```source_file```:</b>
+
+1. Down the excel file from [here](https://www.nseindia.com/regulations/listing-compliance/nse-market-capitalisation-all-companies).
+<br><b>TODO:</b> Automate it as well.
+
+

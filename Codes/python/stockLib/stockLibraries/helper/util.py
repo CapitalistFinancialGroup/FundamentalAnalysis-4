@@ -8,6 +8,7 @@ import yaml
 import logging
 from enum import Enum
 
+
 def __prepare_configuration() -> dict:
     """
     Reads and prepares the configuration
